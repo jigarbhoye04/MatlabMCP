@@ -21,7 +21,7 @@ This is simple implementation of Matlab MCP server. It allows you to run MATLAB 
 
 1. Clone this repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/jigarbhoye04/MatlabMCP.git
    cd MatlabMCP
    ```
 
@@ -87,3 +87,9 @@ MatlabMCP
 
 ![MatlabMCP_SS3](./Docs/Images/ss3.png)
 *MatlabMCP output in matlab window*
+
+
+## Contributing
+Contributions are welcome! If you have any suggestions or improvements, feel free to open an issue or submit a pull request.
+
+Let's make this even better together!
