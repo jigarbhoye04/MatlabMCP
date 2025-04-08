@@ -1,7 +1,7 @@
 [project]
 name = "MatlabMCP"
 version = "0.1.0"
-description = "Add your description here"
+description = "MATLAB MCP server to run MATLAB code from LLM via the MATLAB Engine API."
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
