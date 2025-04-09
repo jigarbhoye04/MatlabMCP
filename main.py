@@ -1,7 +1,8 @@
-from typing import Any
+from typing import Any,Dict
 from mcp.server.fastmcp import FastMCP
 import sys
 import logging
+import asyncio
 
 logging.basicConfig(
     level=logging.INFO,
@@ -53,7 +54,7 @@ async def runMatlabCode(code: str) -> dict:
             with open(temp_filename, "w") as f:
                 f.write(code)
 
-            eng.run(temp_filename, nargout=0) # nargout=0 suppresses output to Python
+            await asyncio.to_thread(eng.run, temp_filename, nargout=0) # Run blocking code in a thread.
             logger.info("Code executed successfully using temp file method.")
             return {"status": "success", "output": "Code executed successfully via temp file."}
 
@@ -62,7 +63,7 @@ async def runMatlabCode(code: str) -> dict:
 
             # --- Fall back to using evalc (captures output) ---
             try:
-                result = eng.evalc(code)
+                result = await asyncio.to_thread(eng.evalc, code)
                 logger.info("Code executed successfully using evalc method.")
                 return {"status": "success", "output": result}
 
@@ -76,7 +77,7 @@ async def runMatlabCode(code: str) -> dict:
                     for line in code_lines:
                         line = line.strip()
                         if line and not line.startswith('%'):
-                            eng.eval(line, nargout=0)
+                            await asyncio.to_thread(eng.eval, line, nargout=0)
                     logger.info("Code executed successfully using line-by-line method.")
                     return {"status": "success", "output": "Code executed successfully line by line."}
 
