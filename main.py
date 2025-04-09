@@ -45,7 +45,7 @@ async def runMatlabCode(code: str) -> dict:
     try:
         if not eng:
             logger.error("No active MATLAB session found during tool execution.")
-            return {"status": "error", "message": "No active MATLAB session found."}
+            return {"status": "error", "error_type": "RuntimeError", "message": "No active MATLAB session found."} # Updated
 
         # --- Try executing using a temporary file ---
         try:
@@ -69,38 +69,50 @@ async def runMatlabCode(code: str) -> dict:
             except matlab.engine.MatlabExecutionError as e_evalc:
                 logger.warning(f"evalc method failed: {e_evalc}. Trying line-by-line...")
 
-                # --- Fall back to line-by-line execution ---
+                # --- Fall back to line-by-line execution (less reliable) ---
                 try:
                     logger.info("Trying line-by-line execution as final fallback...")
                     code_lines = code.strip().split('\n')
-                    last_result = None # Keep track if needed, but output isn't captured
                     for line in code_lines:
                         line = line.strip()
-                        if line and not line.startswith('%'):  
-                            # nargout=0 suppresses output assignment to last_result from MATLAB
+                        if line and not line.startswith('%'):
                             eng.eval(line, nargout=0)
-
                     logger.info("Code executed successfully using line-by-line method.")
                     return {"status": "success", "output": "Code executed successfully line by line."}
 
                 except matlab.engine.MatlabExecutionError as e_line:
                      logger.error(f"Line-by-line execution failed: {e_line}", exc_info=True)
-                     return {"status": "error", "message": f"Line-by-line execution failed: {str(e_line)}"}
+                     return { # Updated
+                         "status": "error",
+                         "error_type": "MatlabExecutionError",
+                         "stage": "line-by-line",
+                         "message": f"Line-by-line execution failed: {str(e_line)}"
+                     }
                 except Exception as e_inner_final:
                      logger.error(f"Unexpected error during line-by-line execution: {e_inner_final}", exc_info=True)
-                     return {"status": "error", "message": f"Unexpected error during line-by-line: {str(e_inner_final)}"}
-
+                     return {
+                         "status": "error",
+                         "error_type": e_inner_final.__class__.__name__,
+                         "stage": "line-by-line",
+                         "message": f"Unexpected error during line-by-line: {str(e_inner_final)}"
+                     }
 
     except matlab.engine.EngineError as e_eng:
         logger.error(f"MATLAB Engine communication error: {e_eng}", exc_info=True)
-        return {"status": "error", "message": f"MATLAB Engine error: {str(e_eng)}"}
-
+        return {
+            "status": "error",
+            "error_type": "EngineError",
+            "message": f"MATLAB Engine error: {str(e_eng)}"
+        }
     except Exception as e_outer:
-        # any other unexpected errors (file IO, etc.)
         logger.error(f"Unexpected error executing MATLAB code: {e_outer}", exc_info=True)
-        error_message = str(e_outer)
-        return {"status": "error", "message": error_message}
-    
+        return {
+            "status": "error",
+            "error_type": e_outer.__class__.__name__,
+            "message": f"Unexpected error: {str(e_outer)}"
+        }
+
+
 if __name__ == "__main__":
     logger.info("Starting MATLAB MCP server...")
     mcp.run(transport='stdio')
