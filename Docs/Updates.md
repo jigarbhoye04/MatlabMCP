@@ -75,3 +75,11 @@ The following scenarios were tested and passed successfully using an LLM client 
 
 > Stay tuned for more updates!
 > This document will be updated as new features and tools are implemented.
+
+# Date: 13-04-2025 (Minor)
+
+## Integrate Deeper MCP Features
+
+The goal is to allow MCP clients to:
+- Discover .m files located in a specific directory on the machine running the server.
+- Read the content of those .m files.
