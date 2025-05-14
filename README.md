@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/jigarbhoye04-matlabmcp-badge.png)](https://mseep.ai/app/jigarbhoye04-matlabmcp)
+
 # MATLAB MCP Integration
 
 This is an implementation of a Model Context Protocol (MCP) server for MATLAB. It allows MCP clients (like LLM agents or Claude Desktop) to interact with a shared MATLAB session using the MATLAB Engine API for Python.
