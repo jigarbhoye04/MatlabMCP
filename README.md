@@ -11,13 +11,9 @@ This is an implementation of a Model Context Protocol (MCP) server for MATLAB. I
 *   **Standard Logging:** Uses Python's standard `logging` module, outputting to `stderr` for visibility in client logs.
 *   **Shared Session:** Connects to an existing shared MATLAB session.
 
-### TODO:
-
-*   Add a `setVariable` tool to write data to the MATLAB workspace.
-*   Add a `runScript` tool to execute `.m` files directly.
-*   Add tools for workspace management (e.g., `clearWorkspace`, `getWorkspaceVariables`).
-*   Expand `matlab_to_python` helper to handle more complex data types (structs, cell arrays, objects).
-*   Add support for interacting with Simulink models.
+> [!TIP]
+> MatlabMCP wikipedia by DEVIN.
+ Checkout [DeepWiki](https://deepwiki.com/jigarbhoye04/MatlabMCP) for more detailed and illustrative information about architecture.
 
 ## Requirements
 
