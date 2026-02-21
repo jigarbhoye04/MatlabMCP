@@ -2,6 +2,10 @@
 
 This is an implementation of a Model Context Protocol (MCP) server for MATLAB. It allows MCP clients (like LLM agents or Claude Desktop) to interact with a shared MATLAB session using the MATLAB Engine API for Python.
 
+<a href="https://glama.ai/mcp/servers/@jigarbhoye04/MatlabMCP">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@jigarbhoye04/MatlabMCP/badge" alt="MATLAB Server MCP server" />
+</a>
+
 ## Features
 
 *   **Execute MATLAB Code:** Run arbitrary MATLAB code snippets via the `runMatlabCode` tool.
